@@ -1,0 +1,9 @@
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\bin\Release\RoboticsToolBase.exe.config
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\bin\Release\RoboticsToolBase.exe
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\bin\Release\RoboticsToolBase.pdb
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.csprojAssemblyReference.cache
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.csproj.CoreCompileInputs.cache
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.AssemblyInfoInputs.cache
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.AssemblyInfo.cs
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.exe
+D:\work\Programming\C#\Projects\RoboticsTools\RoboticsToolBase\obj\Release\RoboticsToolBase.pdb
