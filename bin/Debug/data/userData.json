@@ -1,7 +1,57 @@
 {
-  "grid.x": 75.0,
-  "grid.y": 35.0,
-  "grid.resolutionX": 310,
-  "grid.resolutionY": 160,
-  "grid.unit": 2.6548387096774193
+  "offsetX": 75.0,
+  "offsetY": 35.0,
+  "resolutionX": 50,
+  "resolutionY": 25,
+  "unit": 16.46,
+  "positions": [
+    {
+      "label": "START",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "label": "END",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "label": "ROCKET_RIGHT_BLUE",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "label": "ROCKET_LEFT_BLUE",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "label": "ROCKET_RIGHT_RED",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "label": "ROCKET_LEFT_RED",
+      "id": 0,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ]
 }

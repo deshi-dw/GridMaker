@@ -33,6 +33,8 @@ namespace RoboticsTools.UI {
         public event RenderEvent onRenderUpdate;
         public event RenderEvent onMouseDown;
 
+        public MouseEventArgs lastMouseEvent;
+
         public CanvasWindowUI(IAddChild parent) : base(parent) {
             canvas = new Canvas() {
                 Width = double.NaN,
@@ -54,8 +56,9 @@ namespace RoboticsTools.UI {
             //  gridLayer = new CanvasLayer(new Image<Rgb24>(Configuration.Default, 300, 150, new Rgb24(255, 0, 0)), canvas);
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e) {
-            if(e.MiddleButton == MouseButtonState.Released) return;
+        public void OnMouseMove(object sender, MouseEventArgs e) {
+            lastMouseEvent = e;
+            // if(e.MiddleButton == MouseButtonState.Released) return;
 
             mousePositionCurrent = e.GetPosition(canvas);
 

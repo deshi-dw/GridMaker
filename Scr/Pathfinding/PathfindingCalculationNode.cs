@@ -6,11 +6,13 @@ using RoboticsTools.Util;
 namespace RoboticsTools.Pathfinding {
     public class PathfindingCalculationNode {
         public int g;
-        public byte f;
+        public float f;
 
         public int x;
         public int y;
-        public PathfindingCalculationNode(int g, byte f, int x, int y) {
+
+        public PathfindingCalculationNode previous;
+        public PathfindingCalculationNode(int g, float f, int x, int y) {
             this.g = g;
             this.f = f;
 
@@ -18,7 +20,7 @@ namespace RoboticsTools.Pathfinding {
             this.y = y;
         }
 
-        public PathfindingCalculationNode(int g, byte f, Vector2Int position) {
+        public PathfindingCalculationNode(int g, float f, Vector2Int position) {
             this.g = g;
             this.f = f;
 

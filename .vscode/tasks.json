@@ -9,19 +9,22 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}\\RoboticsToolBase.csproj"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "run",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "run",
-                "${workspaceFolder}\\RoboticsToolBase.csproj"
+                "${workspaceRoot}/RobotGridMaker.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
+        // {
+        //     "label": "build",
+        //     "type": "process",
+        //     "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\MSBuild\\15.0\\BinMSBuild.exe",
+        //     "args": [
+        //         "${workspaceRoot}/RobotGridMaker.csproj"
+        //     ],
+        //     "group": {
+        //         "kind": "build",
+        //         "isDefault": true
+        //     },
+        //     "problemMatcher": "$msCompile"
+        // }
     ]
 }

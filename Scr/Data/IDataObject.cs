@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace RoboticsTools {
     public interface IDataObject {
-        string Path { get; set; }
-        Dictionary<string, object> Data { get; set; }
+        string path { get; set; }
+        Dictionary<string, dynamic> data { get; set; }
 
         object this[string key] { get; set; }
 

@@ -5,16 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
-            "type": "coreclr",
+            "name": "Full .Net Debug",
+            "type": "clr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/RoboticsToolBase.exe",
+            "program": "${workspaceRoot}/bin/Debug/RobotGridMaker.exe",
             "args": [],
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
             "console": "integratedTerminal",
-            // "internalConsoleOptions": "openOnSessionStart"
+            "internalConsoleOptions": "neverOpen",
+            "justMyCode": false,
+            "logging": {"programOutput": true},
+            "preLaunchTask": "build"
         }
     ]
 }
