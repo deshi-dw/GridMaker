@@ -12,8 +12,8 @@
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
+            "console": "externalTerminal",
+            "internalConsoleOptions": "openOnSessionStart",
             "justMyCode": false,
             "logging": {"programOutput": true},
             "preLaunchTask": "build"

@@ -77,7 +77,7 @@ namespace RoboticsTools.Pathfinding {
             return neighbours.ToArray();
         }
 
-        public void FillRect(Vector2Int start, Vector2Int end, byte value) {
+        public void FillRect(Vector2Int start, Vector2Int end, float value) {
             Vector2Int direction = (start - end).Direction();
 
             for(int x = start.x; x != end.x-direction.x; x -= direction.x) {
@@ -90,7 +90,7 @@ namespace RoboticsTools.Pathfinding {
         public bool IsInBounds(Vector2Int pixel) => pixel.x >= 0 && pixel.y >= 0 && pixel.x < resolutionX && pixel.y < resolutionY;
         public bool IsInBounds(int x, int y) => x >= 0 && y >= 0 && x < resolutionX && y < resolutionY;
 
-        public void FillPixels(Vector2Int[] fillPixels, byte value) {
+        public void FillPixels(Vector2Int[] fillPixels, float value) {
             for(int i = 0; i <= fillPixels.Length-1; i++) {
                 if(IsInBounds(fillPixels[i])) nodes[fillPixels[i].x, fillPixels[i].y] = value;
             }

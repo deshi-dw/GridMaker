@@ -3,10 +3,10 @@ using RoboticsTools.Util;
 
 namespace RoboticsTools.UI {
     public struct CanvasBrushSquare : CanvasBrush {
-        public byte value { get; set; }
+        public float value { get; set; }
         public int size { get; set; }
 
-        public CanvasBrushSquare(byte opacity, int size) {
+        public CanvasBrushSquare(float opacity, int size) {
             this.value = opacity;
             this.size = size;
         }
