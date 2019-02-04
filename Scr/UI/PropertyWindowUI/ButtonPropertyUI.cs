@@ -16,7 +16,7 @@ namespace RoboticsTools.UI {
         public delegate void InputChangeEvent();
         public event InputChangeEvent onClick;
 
-        public ButtonPropertyUI() {
+        public ButtonPropertyUI(string label) {
             input = new Button() {
                 Height = 20,
                 Width = double.NaN,
@@ -26,7 +26,7 @@ namespace RoboticsTools.UI {
                 VerticalContentAlignment = VerticalAlignment.Center,
                 Padding = new Thickness(20.0, 0.0, 20.0, 0.0),
                 Margin = new Thickness(0.0, 0.0, 0.0, 0.0),
-                Content = "",
+                Content = label,
 
                 BorderBrush = Brushes.Transparent,
                 Foreground = Brushes.Black,

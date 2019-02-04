@@ -1,19 +1,24 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
+using RoboticsTools.Pathfinding;
 
-namespace RoboticsTools.UI {
-    public class DropdownValuesPropertyUI : PropertyUI {
+namespace RoboticsTools.UI
+{
+    public class DropdownPositionsPropertyUI : PropertyUI {
         // TODO: Add comments.
+
+        // FIXME: Add Plus/Minus Button.
+        // FIXME: Add Saving data.
         public ComboBox input;
+
+        public Dictionary<string, Position> values;
 
         public delegate void InputChangeEvent();
         public event InputChangeEvent onInputChanged;
 
-        public DropdownValuesPropertyUI(string label) {
+        public DropdownPositionsPropertyUI(string label) {
             SetLabel(label);
             input = new ComboBox() {
                 Height = double.NaN,
@@ -42,7 +47,7 @@ namespace RoboticsTools.UI {
             if(onInputChanged != null) onInputChanged();
         }
 
-        public void Add(string label) {
+        public void Add(Position position) {
             input.Items.Add(new ComboBoxItem() {
                 Height = double.NaN,
                 Width = double.NaN,
@@ -54,8 +59,12 @@ namespace RoboticsTools.UI {
                 Margin = new Thickness(0.0, 0.0, 0.0, 0.0),
                 Foreground = Brushes.DarkGray,
 
-                Content = label
+                Content = position.label
             });
+        }
+
+        public void RemoveSelected() {
+            input.Items.RemoveAt(input.SelectedIndex);
         }
     }
 }

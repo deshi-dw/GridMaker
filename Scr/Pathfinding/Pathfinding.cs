@@ -5,28 +5,32 @@ using RoboticsTools.Util;
 namespace RoboticsTools.Pathfinding {
     public class Pathfinding {
         // TODO: Add Comments.
-        private List<PathfindingCalculationNode> openSet;
-        private List<PathfindingCalculationNode> closedSet;
+        private List<CalculationNode> openSet;
+        private List<CalculationNode> closedSet;
 
         private PathfindingGrid grid;
-
-        // TODO: Add path generation.
+        private float[,] gridValue;
         public Queue<Vector2Int> path;
+
         public Pathfinding(PathfindingGrid grid) {
-            openSet = new List<PathfindingCalculationNode>();
-            closedSet = new List<PathfindingCalculationNode>();
+            openSet = new List<CalculationNode>();
+            closedSet = new List<CalculationNode>();
 
             this.grid = grid;
             this.path = new Queue<Vector2Int>();
         }
 
         public void Solve(Vector2Int start, Vector2Int goal) {
-            openSet = new List<PathfindingCalculationNode>();
-            closedSet = new List<PathfindingCalculationNode>();
-            openSet.Add(new PathfindingCalculationNode(0, grid[start], start));
-            PathfindingCalculationNode current = openSet[0];
-            PathfindingCalculationNode previous;
-            Vector2Int[] neighbours = new Vector2Int[4];
+            openSet = new List<CalculationNode>();
+            closedSet = new List<CalculationNode>();
+            gridValue = new float[grid.resolutionX, grid.resolutionY];
+            path = new Queue<Vector2Int>();
+
+            openSet.Add(new CalculationNode(0, 0, start));
+
+            CalculationNode current = openSet[0];
+            CalculationNode previous;
+            Vector2Int[] neighbours;
 
             while (true) {
                 // Set previous to last current.
@@ -53,16 +57,16 @@ namespace RoboticsTools.Pathfinding {
 
                 // Loop through each neighbour to calculate their f values.
                 for (int i = 0; i <= neighbours.Length - 1; i++) {
-                    PathfindingCalculationNode neighbour;
+                    CalculationNode neighbour;
 
-                    if (grid[neighbours[i]] < 0) continue;
+                    if (grid.GetPixel(neighbours[i]) == true) continue;
                     // If neighbour is part of the closed set, go to next neighbour.
                     if (closedSet.Exists(node => (node.x == neighbours[i].x && node.y == neighbours[i].y))) continue;
 
                     // If our neighbour is not part of the open set, add them to it.
                     neighbour = openSet.Find(node => (node.x == neighbours[i].x && node.y == neighbours[i].y));
                     if (neighbour == null) {
-                        neighbour = new PathfindingCalculationNode(g + 1, grid[neighbours[i]], neighbours[i]);
+                        neighbour = new CalculationNode(g + 1, GetGridValue(neighbours[i]), neighbours[i]);
                         openSet.Add(neighbour);
                     }
 
@@ -76,9 +80,9 @@ namespace RoboticsTools.Pathfinding {
                         int tempy = neighbour.y - goal.y;
                         double h = Math.Sqrt(tempx * tempx + tempy * tempy);
                         // the f value is g + h. We convert it into a float to saving memory.
-                        grid[neighbour.x, neighbour.y] = (float) (h + g * 0.5);
+                        gridValue[neighbour.x, neighbour.y] = (float) (h + g * 0.5);
 
-                        neighbour.f = grid[neighbour.x, neighbour.y];
+                        neighbour.f = gridValue[neighbour.x, neighbour.y];
                         // Set the neighbours previous to current.
                         // This will be useful later for constructing the final path.
                         neighbour.previous = current;
@@ -94,6 +98,14 @@ namespace RoboticsTools.Pathfinding {
                 path.Enqueue(new Vector2Int(current.x, current.y));
                 current = current.previous;
             }
+        }
+
+        private void SetGridValue(Vector2Int vector, float f) {
+            gridValue[vector.x, vector.y] = f;
+        }
+
+        private float GetGridValue(Vector2Int vector) {
+            return gridValue[vector.x, vector.y];
         }
     }
 }

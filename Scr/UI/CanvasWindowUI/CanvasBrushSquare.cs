@@ -2,12 +2,11 @@ using System;
 using RoboticsTools.Util;
 
 namespace RoboticsTools.UI {
-    public struct CanvasBrushSquare : CanvasBrush {
-        public float value { get; set; }
+    public struct CanvasBrushSquare {
+        // TODO: Add comments.
         public int size { get; set; }
 
-        public CanvasBrushSquare(float opacity, int size) {
-            this.value = opacity;
+        public CanvasBrushSquare(int size) {
             this.size = size;
         }
 

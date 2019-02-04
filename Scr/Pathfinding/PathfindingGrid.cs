@@ -12,53 +12,81 @@ namespace RoboticsTools.Pathfinding {
         // TODO: Add Comments.
         public static readonly double PixelToCentimeterRatio = 1.411663807890223;
         public double unitPerNode { get; private set; }
+        public double unit { get; private set; }
         public int resolutionX { get; private set; }
         public int resolutionY { get; private set; }
         public double width { get; private set; }
         public double height { get; private set; }
         public double x = 0;
         public double y = 0;
-        private float[,] nodes;
+        private long[,] pixels;
 
-        public PathfindingGrid(int width, int height) {
-            this.resolutionX = width;
-            this.resolutionY = height;
-            nodes = new float[width, height];
+        // Creates a new grid with an x and y resolution;
+        public PathfindingGrid(int resolutionX, int resolutionY) {
+            if((resolutionX + resolutionY) % 8 != 0) Console.WriteLine("ERR: Resolution must be in powers of 8.");
+            this.resolutionX = resolutionX;
+            this.resolutionY = resolutionY;
+            pixels = new long[resolutionX/8, resolutionY/8];
 
-            SetCmPerNode(1.0);
+            SetUnitSize(1.0);
         }
 
-        public float this[int x, int y] { get{ return nodes[x, y]; } set{ nodes[x, y] = value; } }
-        public float this[Vector2Int coord] { get{ return nodes[coord.x, coord.y]; } set{ nodes[coord.x, coord.y] = value; } }
+        // Set's a 'pixel' (bit) to either on or off.
+        public void SetPixel(int x, int y, bool value) {
+            int byteX = x / 8;
+            int byteY = y / 8;
+            int bitX =  x % 8;
+            int bitY =  y % 8;
 
+            long bit = (long)1 << (8 * bitX + bitY);
+
+            if (value) pixels[byteX, byteY] |= bit;
+		    else pixels[byteX, byteY] &= ~bit;
+        }
+
+        // Get the 'pixel' (bit) at the x and y.
+        public bool GetPixel(int x, int y) {
+            int byteX = x / 8;
+            int byteY = y / 8;
+            int bitX =  x % 8;
+            int bitY =  y % 8;
+
+            long bit = (long)1 << (8 * bitX + bitY);
+
+            Console.WriteLine($"{y}x , {x}y");
+
+            if ((pixels[byteX, byteY] & bit) != 0)
+            return true;
+		    else return false;
+        }
+
+        public bool GetPixel(Vector2Int vector) => GetPixel(vector.x, vector.y);
+
+        // Clears the grid.
         public void Clear() {
-            nodes = new float[resolutionX, resolutionY];
+            pixels = new long[resolutionX/8, resolutionY/8];
         }
 
+        // Set the resolution.
         public void SetResolution(int resolutionX, int resolutionY) {
-            float[,] newNodes = new float[resolutionX, resolutionY];
-            for(int x = 0; x <= newNodes.GetLength(0)-1; x++) {
-                for(int y = 0; y <= newNodes.GetLength(1)-1; y++) {
-                    // if(x <= nodes.Length-1 && y <= nodes.GetLength(1)-1) newNodes[x, y] = nodes[x, y];
-                    // else {
-                    // Console.WriteLine($"{x}x, {y}y");
-                    newNodes[x, y] = 0;
-                    // }
-                }
+            if((resolutionX + resolutionY) % 8 != 0) {
+                Console.WriteLine("ERR: Resolution must be in powers of 8.");
+                return;
             }
-
-            nodes = newNodes;
-            this.resolutionX = newNodes.GetLength(0);
-            this.resolutionY = newNodes.GetLength(1);
-            return;
+            pixels = new long[resolutionX/8, resolutionY/8];
+            this.resolutionX = resolutionX;
+            this.resolutionY = resolutionY;
         }
 
-        public void SetCmPerNode(double centimeters) {
+        // Set the unit's per pixel.
+        public void SetUnitSize(double centimeters) {
+            unit = centimeters;
             unitPerNode = centimeters * PixelToCentimeterRatio;
             width = unitPerNode * resolutionX;
             height = unitPerNode * resolutionY;
         }
 
+        // Get the pixel coords around x and y.
         public Vector2Int[] GetNeighbours(int x, int y) {
             if(IsInBounds(x, y) == false) {
                 Console.WriteLine("ERR: Can't get neighbours as requested node is out of range.");
@@ -66,33 +94,25 @@ namespace RoboticsTools.Pathfinding {
                 return null;
             }
 
-            Console.WriteLine($"X: {x} / {nodes.GetLength(0)-1}   Y: {y} / {nodes.GetLength(1)-1}");
-
             List<Vector2Int> neighbours = new List<Vector2Int>();
-            if(x + 1 < nodes.GetLength(0))  neighbours.Add(new Vector2Int(x + 1, y));
-            if(x - 1 >= 0)                  neighbours.Add(new Vector2Int(x - 1, y));
-            if(y + 1 < nodes.GetLength(1))  neighbours.Add(new Vector2Int(x, y + 1));
-            if(y - 1 >= 0)                  neighbours.Add(new Vector2Int(x, y - 1));
+            if(x + 1 < resolutionX)  neighbours.Add(new Vector2Int(x + 1, y));
+            if(x - 1 >= 0)           neighbours.Add(new Vector2Int(x - 1, y));
+            if(y + 1 < resolutionY)  neighbours.Add(new Vector2Int(x, y + 1));
+            if(y - 1 >= 0)           neighbours.Add(new Vector2Int(x, y - 1));
 
             return neighbours.ToArray();
         }
 
-        public void FillRect(Vector2Int start, Vector2Int end, float value) {
-            Vector2Int direction = (start - end).Direction();
-
-            for(int x = start.x; x != end.x-direction.x; x -= direction.x) {
-                for(int y = start.y; y != end.y-direction.y; y -= direction.y) {
-                    nodes[x, y] = value;
-                }
-            }
-        }
-
+        // Checks if vector is inside of the grid.
         public bool IsInBounds(Vector2Int pixel) => pixel.x >= 0 && pixel.y >= 0 && pixel.x < resolutionX && pixel.y < resolutionY;
+        
+        // Checks if x and y are inside of the grid.
         public bool IsInBounds(int x, int y) => x >= 0 && y >= 0 && x < resolutionX && y < resolutionY;
 
-        public void FillPixels(Vector2Int[] fillPixels, float value) {
+        // Fill a ground of pixels at once.
+        public void FillPixels(Vector2Int[] fillPixels, bool value) {
             for(int i = 0; i <= fillPixels.Length-1; i++) {
-                if(IsInBounds(fillPixels[i])) nodes[fillPixels[i].x, fillPixels[i].y] = value;
+                if(IsInBounds(fillPixels[i])) SetPixel(fillPixels[i].x, fillPixels[i].y, value);
             }
         }
     }

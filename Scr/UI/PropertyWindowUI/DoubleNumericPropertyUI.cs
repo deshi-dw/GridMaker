@@ -7,6 +7,7 @@ using System.Windows.Media;
 
 namespace RoboticsTools.UI {
     public class DoubleNumericPropertyUI : PropertyUI {
+        // TODO: Add comments.
         public TextBox input1;
         public TextBox input2;
 
@@ -14,7 +15,9 @@ namespace RoboticsTools.UI {
 
         private Regex regex = new Regex("[^0-9]+");
 
-        public DoubleNumericPropertyUI(double value1, double value2) {
+        public DoubleNumericPropertyUI(string label, double value1, double value2) {
+            SetLabel(label);
+
             input1 = new TextBox() {
                 Height = double.NaN,
                 Width = double.NaN,
@@ -30,7 +33,6 @@ namespace RoboticsTools.UI {
                 BorderBrush = Brushes.Transparent,
                 Foreground = Brushes.DarkGray
             };
-            input1.PreviewTextInput += new TextCompositionEventHandler(InputChange);
 
             input2 = new TextBox() {
                 Height = double.NaN,
@@ -47,7 +49,6 @@ namespace RoboticsTools.UI {
                 BorderBrush = Brushes.Transparent,
                 Foreground = Brushes.DarkGray
             };
-            input2.PreviewTextInput += new TextCompositionEventHandler(InputChange);
 
             container.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
             container.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
@@ -63,8 +64,12 @@ namespace RoboticsTools.UI {
             input2.Text = $"{value2}";
         }
 
-        private void InputChange(object sender, TextCompositionEventArgs e) {
-            e.Handled = regex.IsMatch(e.Text);
+        public decimal GetValue1() {
+            return Convert.ToDecimal(input1.Text);
+        }
+
+        public decimal GetValue2() {
+            return Convert.ToDecimal(input2.Text);
         }
 
         public void SetAllowDecimal(bool shouldAllow) {
@@ -72,30 +77,9 @@ namespace RoboticsTools.UI {
             regex = shouldAllow ? new Regex("[^0-9.]+") : new Regex("[^0-9]+");
         }
 
-        public void SetCharacterLimit1(int length) {
+        public void SetCharacterLimit(int length) {
             input1.MaxLength = length;
-        }
-
-        public int GetIntegerValue1() {
-            return Convert.ToInt32(input1.Text);
-        }
-
-        public double GetDecimalValue1() {
-            try { return Convert.ToDouble(input1.Text); }
-            catch { return double.NaN; }
-        }
-
-        public void SetCharacterLimit2(int length) {
             input2.MaxLength = length;
-        }
-
-        public int GetIntegerValue2() {
-            return Convert.ToInt32(input2.Text);
-        }
-
-        public double GetDecimalValue2() {
-            try { return Convert.ToDouble(input2.Text); }
-            catch { return double.NaN; }
         }
     }
 }

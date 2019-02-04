@@ -6,15 +6,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace RoboticsTools.UI {
-    public class NumericPropertyUI : PropertyUI {
+    public class TextPropertyUI : PropertyUI {
         // TODO: Add comments.
         public TextBox input;
 
-        public bool allowDecimal { get; private set; }
-
-        private Regex regex = new Regex("[^0-9]+");
-
-        public NumericPropertyUI(string label, double value) {
+        public TextPropertyUI(string label, string value) {
             SetLabel(label);
             input = new TextBox() {
                 Height = double.NaN,
@@ -25,8 +21,7 @@ namespace RoboticsTools.UI {
                 VerticalContentAlignment = VerticalAlignment.Center,
                 Padding = new Thickness(0.0, 0.0, 0.0, 0.0),
                 Margin = new Thickness(0.0, 0.0, 0.0, 0.0),
-                MaxLength = 7,
-                Text = $"{value}",
+                Text = value,
 
                 BorderBrush = Brushes.Transparent,
                 Foreground = Brushes.DarkGray
@@ -36,21 +31,12 @@ namespace RoboticsTools.UI {
             container.Children.Add(input);
         }
 
-        public void SetValue(decimal value) {
-            input.Text = $"{value}";
+        public void SetValue(string value) {
+            input.Text = value;
         }
 
-        public decimal GetValue() {
-            return Convert.ToDecimal(input.Text);
-        }
-
-        public void SetAllowDecimal(bool shouldAllow) {
-            allowDecimal = shouldAllow;
-            regex = shouldAllow ? new Regex("[^0-9.]+") : new Regex("[^0-9]+");
-        }
-
-        public void SetCharacterLimit(int length) {
-            input.MaxLength = length;
+        public string GetValue() {
+            return input.Text;
         }
     }
 }
